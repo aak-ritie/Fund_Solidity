@@ -9,13 +9,16 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 contract FundMe{
 
-    uint256 public minimumUSD=50;
+    uint256 public minimumUSD=50 *1e18;
+    address[] public funders;
+    mapping (address=>uint256) public addressToAmountFunded;
 
     function fund() public payable 
      {
         //Want to be able to set a minimum fund amount in USD
         require(getConversionRate(msg.value )>= minimumUSD,"Not enough fund");//1e18==1*10**18
-
+        funders.push(msg.sender);
+        addressToAmountFunded[msg.sender]=msg.value;
     }
     function getPrice() public view returns(uint256){
         //ABI
