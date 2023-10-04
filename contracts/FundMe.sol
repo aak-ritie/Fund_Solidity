@@ -33,9 +33,13 @@ contract FundMe{
         //actually withdraw funds
         
         //transfer
+        //payable(msg.sender).transfer(address(this).balance);
         //send
+        // bool sendSucess= payable(msg.sender).send(address(this).balance);
+        //require(sendSucess,"Send failed");
         //call
-
+        (bool callSucess, )=payable (msg.sender).call{value:address(this).balance}("");
+        require(callSucess,"Call failed");
     }
     
 
